@@ -1,0 +1,3 @@
+f = input('Nhap vao tan so f(H') ; 
+C= 1  ; 
+Zc = 1 / ( 2 * pi * f * C ) ; 
