@@ -1,0 +1,30 @@
+
+G41s = 2.7 ; 
+G42s = tf(1 , [3.8 1]) ; 
+G43s = tf(1 , [1 18]) ; 
+G4s = G41s * G42s * G43s ; 
+%disp('Overall Transfer function:') ; 
+%disp(G4s); 
+t = 0:0.01:60;
+[stepr , time] = step(G4s , t) ; 
+Kp =stepr(end) ; 
+%T1 = -1 / (slopeFinder(time,stepr,0.632*Kp))
+tau = time(find(stepr >= 0.632 *Kp, 1)) ; 
+T1 = 0.632 * tau ; 
+fprintf('Proportional Coefficient (Kp): %.2f\n', Kp);
+fprintf('Time Constant (T1): %.2f seconds\n', T1);
+fprintf('Time Delay (τ): %.2f seconds\n', tau);
+figure ; 
+plot(time , stepr) ; 
+hold on ; 
+plot(tau, Kp, 'ro');
+plot(tau - T1, Kp * 0.1, 'ro');
+plot(tau, Kp * 0.8, 'ro');
+title('Step Response of G4(s)');
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+grid on;
+text(tau, Kp, ['Kp = ' num2str(Kp)], 'HorizontalAlignment', 'left');
+text(tau - T1, Kp * 0.1, ['T1 = ' num2str(T1)], 'HorizontalAlignment', 'right');
+text(tau, Kp * 0.8, ['τ = ' num2str(tau)], 'HorizontalAlignment', 'left');
+saveas(gcf, 'assign_4_step.fig');

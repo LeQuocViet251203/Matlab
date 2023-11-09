@@ -1,0 +1,18 @@
+syms s ; 
+TI = 4.3 ; 
+ts = 1; 
+ms = sym2poly(TI * s) ; 
+G1s = tf(num, den) ; 
+t = 0:0.01:20 ; 
+step_response = step(G1s , t) ; 
+step_info = stepinfo(G1s, t) ;
+integral_time_constant = step_info.Risetime ; 
+fprintf('Integral Time Constant (from step response): %.2f seconds\n', integral_time_constant);
+plot(t,step_response) ; 
+title('Step Response of G1(s)') ; 
+xlabel('Time(seconds)') ; 
+ylabel('Amplitude') ; 
+grid on ; 
+text(integral_time_constant, 1, 'TI = 4.3 seconds', 'HorizontalAlignment', 'left');
+text(integral_time_constant, 0.5, '^', 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top');
+saveas(gcf, 'assign_1.fig');
